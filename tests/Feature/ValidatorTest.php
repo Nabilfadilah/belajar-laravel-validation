@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -93,30 +94,35 @@ class ValidatorTest extends TestCase
         }
     }
 
-    // public function testValidatorMultipleRules()
-    // {
-    //     App::setLocale("id");
+    // Validation Rules and Multiple Rules
+    public function testValidatorMultipleRules()
+    {
+        App::setLocale("id"); // set zona id
 
-    //     $data = [
-    //         "username" => "eko",
-    //         "password" => "eko"
-    //     ];
+        $data = [
+            "username" => "abil",
+            "password" => "abil"
+        ];
 
-    //     $rules = [
-    //         "username" => "required|email|max:100",
-    //         "password" => ["required", "min:6", "max:20"]
-    //     ];
+        $rules = [
+            "username" => "required|email|max:100", // validation Rules, tanda pagar |
+            "password" => ["required", "min:6", "max:20"] // validation Rules, pake array
+        ];
 
-    //     $validator = Validator::make($data, $rules);
-    //     self::assertNotNull($validator);
+        // lakukan validator
+        $validator = Validator::make($data, $rules);
+        self::assertNotNull($validator); // hasilnya tidak boleh kosong
 
-    //     self::assertFalse($validator->passes());
-    //     self::assertTrue($validator->fails());
+        // menjalankan validasi
+        self::assertFalse($validator->passes());
+        self::assertTrue($validator->fails());
 
-    //     $message = $validator->getMessageBag();
+        // mendapatkan detail dari error getMessageBag()
+        $message = $validator->getMessageBag();
 
-    //     Log::info($message->toJson(JSON_PRETTY_PRINT));
-    // }
+        // translate jadi Json
+        Log::info($message->toJson(JSON_PRETTY_PRINT));
+    }
 
     // public function testValidatorValidData()
     // {
