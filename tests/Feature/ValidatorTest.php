@@ -252,32 +252,38 @@ class ValidatorTest extends TestCase
         Log::info($message->toJson(JSON_PRETTY_PRINT));
     }
 
-    // public function testValidatorCustomFunctionRule()
-    // {
-    //     $data = [
-    //         "username" => "eko@pzn.com",
-    //         "password" => "eko@pzn.com"
-    //     ];
+    // custome function rule
+    public function testValidatorCustomFunctionRule()
+    {
+        $data = [
+            "username" => "eko@pzn.com",
+            "password" => "eko@pzn.com"
+        ];
 
-    //     $rules = [
-    //         "username" => ["required", "email", "max:100", function(string $attribute, string $value, \Closure $fail){
-    //             if(strtoupper($value) != $value){
-    //                 $fail("The field $attribute must be UPPERCASE");
-    //             }
-    //         }],
-    //         "password" => ["required", "min:6", "max:20", new RegistrationRule()]
-    //     ];
+        $rules = [
+            // custome function rule, tapi tidak bikin function class rule 
+            // bisa buat disini dengan tambah 3 attribute (string $attribute, string $value, \Closure $fail)
+            "username" => ["required", "email", "max:100", function (string $attribute, string $value, \Closure $fail) {
+                // tambah kondisinya
+                // jika uppercase value tidak sama dengan value
+                if (strtoupper($value) != $value) {
+                    // tampilkan message
+                    $fail("The field $attribute must be UPPERCASE");
+                }
+            }],
+            "password" => ["required", "min:6", "max:20", new RegistrationRule()] // custome baru dari RegistrationRule()
+        ];
 
-    //     $validator = Validator::make($data, $rules);
-    //     self::assertNotNull($validator);
+        $validator = Validator::make($data, $rules);
+        self::assertNotNull($validator);
 
-    //     self::assertFalse($validator->passes());
-    //     self::assertTrue($validator->fails());
+        self::assertFalse($validator->passes());
+        self::assertTrue($validator->fails());
 
-    //     $message = $validator->getMessageBag();
+        $message = $validator->getMessageBag();
 
-    //     Log::info($message->toJson(JSON_PRETTY_PRINT));
-    // }
+        Log::info($message->toJson(JSON_PRETTY_PRINT));
+    }
 
     // public function testValidatorRuleClasses()
     // {
