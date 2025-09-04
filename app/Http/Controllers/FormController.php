@@ -17,22 +17,24 @@ class FormController extends Controller
     }
 
     // submit form
-    public function submitForm(Request $request): Response
-    {
-        $data = $request->validate([
-            "username" => "required",
-            "password" => "required"
-        ]);
-
-        return response("OK", Response::HTTP_OK);
-    }
-
-    // public function submitForm(LoginRequest $request): Response
+    // public function submitForm(Request $request): Response
     // {
-    //     $data = $request->validated();
-    //     Log::info(json_encode($request->all(), JSON_PRETTY_PRINT));
+    //     $data = $request->validate([
+    //         "username" => "required",
+    //         "password" => "required"
+    //     ]);
+
     //     return response("OK", Response::HTTP_OK);
     // }
+
+    // custom request submit form
+    // panggil lofinRequest, jadi validationnya sudah di file sana
+    public function submitForm(LoginRequest $request): Response
+    {
+        $data = $request->validated(); // tinggal panggil validate
+        Log::info(json_encode($request->all(), JSON_PRETTY_PRINT));
+        return response("OK", Response::HTTP_OK);
+    }
 
     // form login 
     public function login(Request $request): Response
