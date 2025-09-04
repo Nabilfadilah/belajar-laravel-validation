@@ -157,6 +157,8 @@ return [
     'url' => 'The :attribute field must be a valid URL.',
     'ulid' => 'The :attribute field must be a valid ULID.',
     'uuid' => 'The :attribute field must be a valid UUID.',
+    // tambah disini custom uppercase nya
+    'custom.uppercase' => 'The :attribute field with value :value must be UPPERCASE',
 
     /*
     |--------------------------------------------------------------------------
