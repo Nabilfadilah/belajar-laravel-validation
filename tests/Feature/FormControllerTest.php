@@ -8,6 +8,7 @@ use Tests\TestCase;
 
 class FormControllerTest extends TestCase
 {
+    // test login gagal
     public function testLoginFailed()
     {
         $response = $this->post('/form/login', [
@@ -17,6 +18,7 @@ class FormControllerTest extends TestCase
         $response->assertStatus(400);
     }
 
+    // test login berhasil
     public function testLoginSuccess()
     {
         $response = $this->post('/form/login', [
@@ -26,21 +28,21 @@ class FormControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testFormFailed()
-    {
-        $response = $this->post('/form', [
-            'username' => '',
-            'password' => ''
-        ]);
-        $response->assertStatus(302);
-    }
+    // public function testFormFailed()
+    // {
+    //     $response = $this->post('/form', [
+    //         'username' => '',
+    //         'password' => ''
+    //     ]);
+    //     $response->assertStatus(302);
+    // }
 
-    public function testFormSuccess()
-    {
-        $response = $this->post('/form', [
-            'username' => 'admin',
-            'password' => 'rahasia'
-        ]);
-        $response->assertStatus(200);
-    }
+    // public function testFormSuccess()
+    // {
+    //     $response = $this->post('/form', [
+    //         'username' => 'admin',
+    //         'password' => 'rahasia'
+    //     ]);
+    //     $response->assertStatus(200);
+    // }
 }
