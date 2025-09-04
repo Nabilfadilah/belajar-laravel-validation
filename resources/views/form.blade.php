@@ -24,10 +24,12 @@
             <label>Username : @error('username')
                     {{ $message }}
                 @enderror
+                {{-- menggunakan method old() atau global function old di Blade template untuk mendapatkan data lama --}}
                 <input type="text" name="username" value="{{ old('username') }}"></label> <br>
             <label>Password : @error('password')
                     {{ $message }}
                 @enderror
+                {{-- menggunakan method old() atau global function old di Blade template untuk mendapatkan data lama --}}
                 <input type="password" name="password" value="{{ old('password') }}"></label><br>
             <input type="submit" value="Login">
         </form>
