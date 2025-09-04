@@ -97,7 +97,7 @@ class ValidatorTest extends TestCase
     // Validation Rules and Multiple Rules
     public function testValidatorMultipleRules()
     {
-        App::setLocale("id"); // set zona id
+        App::setLocale("id"); // set lokasi id untuk custome message 
 
         $data = [
             "username" => "abil",
@@ -158,35 +158,39 @@ class ValidatorTest extends TestCase
         }
     }
 
-    // public function testValidatorInlineMessage()
-    // {
-    //     $data = [
-    //         "username" => "eko",
-    //         "password" => "eko"
-    //     ];
+    // iniline message
+    public function testValidatorInlineMessage()
+    {
+        // varible data
+        $data = [
+            "username" => "eko",
+            "password" => "eko"
+        ];
 
-    //     $rules = [
-    //         "username" => "required|email|max:100",
-    //         "password" => ["required", "min:6", "max:20"]
-    //     ];
+        // validasi
+        $rules = [
+            "username" => "required|email|max:100",
+            "password" => ["required", "min:6", "max:20"]
+        ];
 
-    //     $messages = [
-    //         "required" => ":attribute harus diisi",
-    //         "email" => ":attribute harus berupa email",
-    //         "min" => ":attribute minimal :min karakter",
-    //         "max" => ":attribute maksimal :max karakter",
-    //     ];
+        // iniline message, jadi langsung simpan disini
+        $messages = [
+            "required" => ":attribute harus diisi",
+            "email" => ":attribute harus berupa email",
+            "min" => ":attribute minimal :min karakter",
+            "max" => ":attribute maksimal :max karakter",
+        ];
 
-    //     $validator = Validator::make($data, $rules, $messages);
-    //     self::assertNotNull($validator);
+        $validator = Validator::make($data, $rules, $messages);
+        self::assertNotNull($validator);
 
-    //     self::assertFalse($validator->passes());
-    //     self::assertTrue($validator->fails());
+        self::assertFalse($validator->passes());
+        self::assertTrue($validator->fails());
 
-    //     $message = $validator->getMessageBag();
+        $message = $validator->getMessageBag();
 
-    //     Log::info($message->toJson(JSON_PRETTY_PRINT));
-    // }
+        Log::info($message->toJson(JSON_PRETTY_PRINT));
+    }
 
     // public function testValidatorAdditionalValidation()
     // {
