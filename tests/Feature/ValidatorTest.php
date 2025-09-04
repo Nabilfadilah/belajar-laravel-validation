@@ -124,32 +124,39 @@ class ValidatorTest extends TestCase
         Log::info($message->toJson(JSON_PRETTY_PRINT));
     }
 
-    // public function testValidatorValidData()
-    // {
-    //     $data = [
-    //         "username" => "admin@pzn.com",
-    //         "password" => "rahasia",
-    //         "admin" => true,
-    //         "others" => "xxx"
-    //     ];
+    // Valid Data
+    public function testValidatorValidData()
+    {
+        // variable array
+        $data = [
+            "username" => "admin@pzn.com",
+            "password" => "rahasia",
+            "admin" => true, // input ini, tidak akan panggil
+            "others" => "xxx" // input ini, tidak akan panggil
+        ];
 
-    //     $rules = [
-    //         "username" => "required|email|max:100",
-    //         "password" => "required|min:6|max:20"
-    //     ];
+        // validasi
+        $rules = [
+            // karena di validasinya tidak tidak tambahkan key nya contoh admin/other
+            "username" => "required|email|max:100",
+            "password" => "required|min:6|max:20"
+        ];
 
-    //     $validator = Validator::make($data, $rules);
-    //     self::assertNotNull($validator);
+        // lakukan validator
+        $validator = Validator::make($data, $rules);
+        self::assertNotNull($validator); // hasilnya tidak boleh kosong
 
-    //     try {
-    //         $valid = $validator->validate();
-    //         Log::info(json_encode($valid, JSON_PRETTY_PRINT));
-    //     }catch (ValidationException $exception){
-    //         self::assertNotNull($exception->validator);
-    //         $message = $exception->validator->errors();
-    //         Log::error($message->toJson(JSON_PRETTY_PRINT));
-    //     }
-    // }
+        try {
+            // saat kita lakukan validate
+            $valid = $validator->validate();
+            Log::info(json_encode($valid, JSON_PRETTY_PRINT)); // tampilkan infonya 
+        } catch (ValidationException $exception) {
+            self::assertNotNull($exception->validator); // ($exception->validator), dapatkan object dari validator
+            $message = $exception->validator->errors(); // $exception->validator->errors(), dapatkan error message nya
+            // translate ke json
+            Log::error($message->toJson(JSON_PRETTY_PRINT));
+        }
+    }
 
     // public function testValidatorInlineMessage()
     // {
