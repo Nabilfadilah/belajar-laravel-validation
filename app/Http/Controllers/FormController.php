@@ -16,6 +16,17 @@ class FormController extends Controller
         return response()->view("form");
     }
 
+    // submit form
+    public function submitForm(Request $request): Response
+    {
+        $data = $request->validate([
+            "username" => "required",
+            "password" => "required"
+        ]);
+
+        return response("OK", Response::HTTP_OK);
+    }
+
     // public function submitForm(LoginRequest $request): Response
     // {
     //     $data = $request->validated();
