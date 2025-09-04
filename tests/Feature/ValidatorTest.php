@@ -306,64 +306,69 @@ class ValidatorTest extends TestCase
         self::assertTrue($validator->passes());
     }
 
-    // public function testNestedArray()
-    // {
-    //     $data = [
-    //         "name" => [
-    //             "first" => "Eko",
-    //             "last" => "Kurniawan"
-    //         ],
-    //         "address" => [
-    //             "street" => "Jalan. Mangga",
-    //             "city" => "Jakarta",
-    //             "country" => "Indonesia"
-    //         ]
-    //     ];
+    // Nested Array Validation
+    public function testNestedArray()
+    {
+        // data array nested
+        $data = [
+            "name" => [
+                "first" => "Eko",
+                "last" => "Kurniawan"
+            ],
+            "address" => [
+                "street" => "Jalan. Mangga",
+                "city" => "Jakarta",
+                "country" => "Indonesia"
+            ]
+        ];
 
-    //     $rules = [
-    //         "name.first" => ["required", "max:100"],
-    //         "name.last" => ["max:100"],
-    //         "address.street" => ["max:200"],
-    //         "address.city" => ["required", "max:100"],
-    //         "address.country" => ["required", "max:100"],
-    //     ];
+        $rules = [
+            // nested array validation pake (titik .)
+            "name.first" => ["required", "max:100"],
+            "name.last" => ["max:100"],
+            "address.street" => ["max:200"],
+            "address.city" => ["required", "max:100"],
+            "address.country" => ["required", "max:100"],
+        ];
 
-    //     $validator = Validator::make($data, $rules);
-    //     self::assertTrue($validator->passes());
+        // jalankan validasinya
+        $validator = Validator::make($data, $rules);
+        self::assertTrue($validator->passes());
+    }
 
-    // }
+    // indexed array validation
+    public function testNestedIndexedArray()
+    {
+        // nested array nya adalah indexed, artinya bisa lebih dari satu
+        $data = [
+            "name" => [
+                "first" => "Eko",
+                "last" => "Kurniawan"
+            ],
+            "address" => [
+                [
+                    "street" => "Jalan. Mangga",
+                    "city" => "Jakarta",
+                    "country" => "Indonesia"
+                ],
+                [
+                    "street" => "Jalan. Manggis",
+                    "city" => "Jakarta",
+                    "country" => "Indonesia"
+                ]
+            ]
+        ];
 
-    // public function testNestedIndexedArray()
-    // {
-    //     $data = [
-    //         "name" => [
-    //             "first" => "Eko",
-    //             "last" => "Kurniawan"
-    //         ],
-    //         "address" => [
-    //             [
-    //                 "street" => "Jalan. Mangga",
-    //                 "city" => "Jakarta",
-    //                 "country" => "Indonesia"
-    //             ],
-    //             [
-    //                 "street" => "Jalan. Manggis",
-    //                 "city" => "Jakarta",
-    //                 "country" => "Indonesia"
-    //             ]
-    //         ]
-    //     ];
+        $rules = [
+            // indexed array validation pake (bintang *)
+            "name.first" => ["required", "max:100"],
+            "name.last" => ["max:100"],
+            "address.*.street" => ["max:200"],
+            "address.*.city" => ["required", "max:100"],
+            "address.*.country" => ["required", "max:100"],
+        ];
 
-    //     $rules = [
-    //         "name.first" => ["required", "max:100"],
-    //         "name.last" => ["max:100"],
-    //         "address.*.street" => ["max:200"],
-    //         "address.*.city" => ["required", "max:100"],
-    //         "address.*.country" => ["required", "max:100"],
-    //     ];
-
-    //     $validator = Validator::make($data, $rules);
-    //     self::assertTrue($validator->passes());
-
-    // }
+        $validator = Validator::make($data, $rules);
+        self::assertTrue($validator->passes());
+    }
 }
